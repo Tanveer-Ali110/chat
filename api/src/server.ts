@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import morgan from 'morgan';
 import helmet from 'helmet';
 
-// import BaseRouter from "./routes";
+import BaseRouter from "./routes";
 import Config from "./config/constant";
 import { errorHandler } from "@utils/errorHandler";
 import { Server as httpServer, createServer } from "http";
@@ -23,7 +23,7 @@ export const Server = (): httpServer => {
     }
 
     // Add APIs
-    //   app.use("/api", BaseRouter);
+      app.use("/api", BaseRouter);
 
     // Setup error handler
     app.use(errorHandler as unknown as RequestHandler);

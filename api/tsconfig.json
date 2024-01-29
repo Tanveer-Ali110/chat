@@ -16,7 +16,7 @@
       "noImplicitAny": false,
       "paths": {
         "@config/*": ["config/*"],
-        "@controller/*": ["controller/*"],
+        "@controllers/*": ["controllers/*"],
         "@middleware/*": ["middleware/*"],
         "@models/*": ["models/*"],
         "@services/*": ["services/*"],

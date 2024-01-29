@@ -50,7 +50,7 @@
   },
   "_moduleAliases": {
     "@config": "dist/config",
-    "@controller": "dist/controller",
+    "@controllers": "dist/controllers",
     "@models": "dist/models",
     "@storage": "dist/storage",
     "@utils": "dist/utils",
