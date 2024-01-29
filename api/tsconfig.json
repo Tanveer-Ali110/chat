@@ -18,6 +18,7 @@
         "@config/*": ["config/*"],
         "@controllers/*": ["controllers/*"],
         "@dto/*": ["dto/*"],
+        "@entity/*": ["entity/*"],
         "@interfaces/*": ["interfaces/*"],
         "@middleware/*": ["middleware/*"],
         "@models/*": ["models/*"],

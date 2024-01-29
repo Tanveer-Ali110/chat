@@ -5,12 +5,18 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 
 import BaseRouter from "./routes";
-import Config from "./config/constant";
+import Config from "./config/environment";
 import { errorHandler } from "@utils/errorHandler";
 import { Server as httpServer, createServer } from "http";
+import { dbConnect } from "@config/mongodb";
 
 export const Server = (): httpServer => {
     const app: Application = express();
+
+    // //// Connect to the Mongo DB ////
+    dbConnect()
+        .then(() => console.log("Connection to MongoDB successful"))
+        .catch((err) => console.error(err));
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
@@ -23,7 +29,7 @@ export const Server = (): httpServer => {
     }
 
     // Add APIs
-      app.use("/api", BaseRouter);
+    app.use("/api", BaseRouter);
 
     // Setup error handler
     app.use(errorHandler as unknown as RequestHandler);
@@ -32,5 +38,5 @@ export const Server = (): httpServer => {
         res.send("Express server with TypeScript");
     });
 
-    return createServer(app);;
+    return createServer(app);
 }

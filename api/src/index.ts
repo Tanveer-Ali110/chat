@@ -1,5 +1,5 @@
 import './pre-start'; // Must be the first import
-import Config from "./config/constant";
+import Config from "./config/environment";
 import { Server } from './server';
 import { socketInit } from '@services/socket';
 
@@ -13,7 +13,7 @@ const startServer = (PORT: number): void => {
     const serverUrl = `http://localhost:${PORT}`;
 
     //Server
-    httpServer.listen(Config.PORT, () => {
+    httpServer.listen(PORT, () => {
         console.log(serverStartMsg, serverUrl);
     });
 };
