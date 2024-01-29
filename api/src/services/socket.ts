@@ -1,9 +1,10 @@
 
-import { Application } from "express";
-import { Server, ServerOptions } from "socket.io";
+import { socketAuth } from "@middleware/socketAuth";
+import { Server as httpServer } from "http";
+import { Server } from "socket.io";
 
 let io: Server;
-export const socketInit = (http: Partial<ServerOptions>) => {
+export const socketInit = (http: httpServer) => {
     try {
         io = new Server(http);
         io.use(socketAuth);

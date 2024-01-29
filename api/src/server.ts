@@ -7,8 +7,9 @@ import helmet from 'helmet';
 // import BaseRouter from "./routes";
 import Config from "./config/constant";
 import { errorHandler } from "@utils/errorHandler";
+import { Server as httpServer, createServer } from "http";
 
-export const createServer = (): Application => {
+export const Server = (): httpServer => {
     const app: Application = express();
 
     app.use(express.json());
@@ -31,5 +32,5 @@ export const createServer = (): Application => {
         res.send("Express server with TypeScript");
     });
 
-    return app;
+    return createServer(app);;
 }
