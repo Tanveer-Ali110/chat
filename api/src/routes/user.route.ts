@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { create, getAll } from "@controllers/user.controller";
-// import { validate } from "@middleware/validate";
+import { validateBody } from "@middleware/validate";
+import { createUserSchema } from "@dto/user.schema";
+import { createUserType } from "@interfaces/user.interface";
 
 const userRouter = Router();
 
 userRouter.get("/", getAll);
 
-// // Add one user
-// body = ["name", "age"]
-userRouter.post("/", create);
+userRouter.post("/", validateBody<createUserType>(createUserSchema), create);
 
 // // Update one user
 // body = ["age"]

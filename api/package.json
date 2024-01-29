@@ -51,6 +51,8 @@
   "_moduleAliases": {
     "@config": "dist/config",
     "@controllers": "dist/controllers",
+    "@dto": "dist/dto",
+    "@interfaces": "dist/interfaces",
     "@models": "dist/models",
     "@storage": "dist/storage",
     "@utils": "dist/utils",

@@ -17,6 +17,8 @@
       "paths": {
         "@config/*": ["config/*"],
         "@controllers/*": ["controllers/*"],
+        "@dto/*": ["dto/*"],
+        "@interfaces/*": ["interfaces/*"],
         "@middleware/*": ["middleware/*"],
         "@models/*": ["models/*"],
         "@services/*": ["services/*"],
