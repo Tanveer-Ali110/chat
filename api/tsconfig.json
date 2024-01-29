@@ -13,6 +13,7 @@
       "moduleResolution": "node",
       "strictNullChecks": false,
       "experimentalDecorators": true,
+      "noImplicitAny": false,
       "paths": {
         "@config/*": ["config/*"],
         "@controller/*": ["controller/*"],

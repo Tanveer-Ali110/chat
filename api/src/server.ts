@@ -8,29 +8,28 @@ import helmet from 'helmet';
 import Config from "./config/constant";
 import { errorHandler } from "@utils/errorHandler";
 
-
 export const createServer = (): Application => {
-  const app: Application = express();
+    const app: Application = express();
 
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-  app.use(cookieParser());
-  if (Config.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
-  }
-  if (Config.NODE_ENV === 'production') {
-    app.use(helmet());
-  }
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(cookieParser());
+    if (Config.NODE_ENV === 'development') {
+        app.use(morgan('dev'));
+    }
+    if (Config.NODE_ENV === 'production') {
+        app.use(helmet());
+    }
 
-  // Add APIs
-//   app.use("/api", BaseRouter);
+    // Add APIs
+    //   app.use("/api", BaseRouter);
 
-  // Setup error handler
-  app.use(errorHandler as unknown as RequestHandler);
+    // Setup error handler
+    app.use(errorHandler as unknown as RequestHandler);
 
-  app.get("/", (_: Request, res: Response) => {
-    res.send("Express server with TypeScript");
-  });
+    app.get("/", (_: Request, res: Response) => {
+        res.send("Express server with TypeScript");
+    });
 
-  return app;
+    return app;
 }
