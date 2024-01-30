@@ -11,15 +11,15 @@ export const encryptPassword = async function (this: any, next) {
     next();
 }
 
-export async function generateAuthToken(this: any, 
-    expiresIn: string = "30d",
-    isLogin = true
-  ) {
-    const user = this;
-    const token = sign({ _id: user._id.toString() }, SECRET, { expiresIn });
-    if (isLogin) {
+export async function generateAccessToken(this: any,
+  expiresIn: string = "30d",
+  isLogin = true
+) {
+  const user = this;
+  const token = sign({ _id: user._id.toString() }, "jwtscret", { expiresIn });
+  if (isLogin) {
       user.accessTokens.push(token);
       await user.save();
-    }
-    return token;
-  };
+  }
+  return token;
+};

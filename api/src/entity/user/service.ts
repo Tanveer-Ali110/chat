@@ -1,5 +1,8 @@
-import { createUserType } from "@interfaces/user.interface"
+import { IUser, createUserType } from "@interfaces/user.interface"
 import { User } from "./schema"
+import { head, isEmpty } from "lodash"
+import { compare } from "bcryptjs"
+import { BadRequestException, UnAuthorizedException } from "@utils/exceptions"
 
 
 export const createUser = async (data: createUserType) => {
@@ -7,8 +10,21 @@ export const createUser = async (data: createUserType) => {
 }
 
 export const findByCredential = async (email: string, password: string) => {
-    return User.findByCredentials(email, password)
+    const users = await User.find({ email });
+    if (isEmpty(users)) {
+        throw new UnAuthorizedException("User does not exist");
+    }
+    const user: IUser = head(users);
+    const isMatch = await compare(password, user.password);
+    if (!isMatch) {
+        throw new BadRequestException("Password does not match");
+    }
+    return user;
 }
 export const findUsers = async () => {
     return User.find()
 }
+
+export const findUserByAuth = async (_id: string, accessToken: string) => {
+    return User.findOne({ _id, accessTokens: accessToken });
+  };

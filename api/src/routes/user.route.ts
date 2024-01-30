@@ -1,18 +1,16 @@
 import { Router } from "express";
-import { create, getAll } from "@controllers/user.controller";
-import { validateBody } from "@middleware/validate";
-import { createUserSchema } from "@dto/user.schema";
-import { createUserType } from "@interfaces/user.interface";
+import { auth, create, getAll, getById } from "@controllers/user.controller";
+import { validateAccessToken, validateBody } from "@middleware/validate";
+import { createUserSchema, loginUserSchema } from "@dto/user.schema";
+import { createUserType, loginUserType } from "@interfaces/user.interface";
 
 const userRouter = Router();
 
 userRouter.get("/", getAll);
 
 userRouter.post("/", validateBody<createUserType>(createUserSchema), create);
-
-// // Update one user
-// body = ["age"]
-// userRouter.put("/update", validate([]), User.update);
+userRouter.post("/auth", validateBody<loginUserType>(loginUserSchema), auth);
+userRouter.put("/update", validateAccessToken, getById);
 
 // // // Delete one user
 // userRouter.delete("/delete/:id", validate([]), User.delete);
