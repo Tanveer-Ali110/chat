@@ -3,36 +3,38 @@ import { DataStoredInToken } from "@interfaces/auth.interface";
 import { IUser } from "@interfaces/user.interface";
 import { UnAuthorizedException, ValidationException } from "@utils/exceptions";
 import { Request, Response, NextFunction } from "express";
-
 import { verify, Secret } from "jsonwebtoken";
 
 import { ZodSchema } from 'zod';
 
 
-export const validateBody = <T>(schema: ZodSchema<T>) => (req: Request, res: Response, next: NextFunction) => {
+export const validateBody = <T>(schema: ZodSchema<T>) => (req: Request, _: Response, next: NextFunction) => {
+    try {
 
-    const body = req.body
-    const validationResult = schema.safeParse(body);
+        const body = req.body
+        const validationResult = schema.safeParse(body);
 
-    if (!validationResult.success) {
-        const message = (validationResult as any).error.issues.map(issue => {
-            const path = issue.path.join(".");
-            const errorMessage = `${path} is ${issue.message}`;
-            return errorMessage;
-        });
-        throw new ValidationException(message[0])
+        if (!validationResult.success) {
+            const message = (validationResult as any).error.issues.map(issue => {
+                const path = issue.path.join(".");
+                const errorMessage = `${path} is ${issue.message}`;
+                return errorMessage;
+            });
+            throw new ValidationException(message[0])
+        }
+        req.body = validationResult.data
+        next();
+    } catch (error) {
+        next(error);
     }
-    req.body = validationResult.data
-    next()
 }
 
-export const validateAccessToken = async (req: Request, res: Response, next: NextFunction) => {
+export const validateAccessToken = async (req: Request, _: Response, next: NextFunction) => {
     try {
         const headerToken = req.headers?.authorization?.split(" ")[1];
         if (!headerToken) {
             throw new UnAuthorizedException("UNAUTHORIZED_USER");
         }
-
         if (headerToken) {
             const decoded = verify(
                 headerToken,
