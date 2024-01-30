@@ -7,6 +7,7 @@ import { Request, Response, NextFunction } from "express";
 import { verify, Secret } from "jsonwebtoken";
 
 import { ZodSchema } from 'zod';
+import { findUserFromToken } from "./socketAuth";
 
 
 export const validateBody = <T>(schema: ZodSchema<T>) => (req: Request, _: Response, next: NextFunction) => {
@@ -37,15 +38,7 @@ export const validateAccessToken = async (req: Request, _: Response, next: NextF
             throw new UnAuthorizedException("UNAUTHORIZED_USER");
         }
         if (headerToken) {
-            const decoded = verify(headerToken, JWT_SECRET) as DataStoredInToken;
-            const tokenExpired = Date.now() < decoded.iat!;
-            if (tokenExpired) {
-                throw new UnAuthorizedException("JWT_EXPIRED");
-            }
-            req.user = (await findUserByAuth(
-                decoded._id as string,
-                headerToken
-            )) as IUser;
+            req.user = await findUserFromToken(headerToken);
             req.token = headerToken;
         }
 
