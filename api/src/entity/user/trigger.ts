@@ -1,5 +1,5 @@
 
-import { SECRET } from "@config/environment";
+import { JWT_SECRET } from "@config/environment";
 import { hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 
@@ -16,7 +16,7 @@ export async function generateAccessToken(this: any,
   isLogin = true
 ) {
   const user = this;
-  const token = sign({ _id: user._id.toString() }, "jwtscret", { expiresIn });
+  const token = sign({ _id: user._id.toString() },JWT_SECRET, { expiresIn });
   if (isLogin) {
       user.accessTokens.push(token);
       await user.save();

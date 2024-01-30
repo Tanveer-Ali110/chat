@@ -21,10 +21,10 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export const getById = async (req: Request, res: Response, next: NextFunction) => {
+export const getProfile = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const users = await findUsers()
-        return res.json(users.map(u => u.toJSON()))
+        const user = req.user
+        return res.json(user)
     } catch (error) {
         next(error)
     }

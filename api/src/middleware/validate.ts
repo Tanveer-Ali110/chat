@@ -1,3 +1,4 @@
+import { JWT_SECRET } from "@config/environment";
 import { findUserByAuth } from "@entity/user/service";
 import { DataStoredInToken } from "@interfaces/auth.interface";
 import { IUser } from "@interfaces/user.interface";
@@ -36,10 +37,7 @@ export const validateAccessToken = async (req: Request, _: Response, next: NextF
             throw new UnAuthorizedException("UNAUTHORIZED_USER");
         }
         if (headerToken) {
-            const decoded = verify(
-                headerToken,
-                "JWT_SECRET" as Secret
-            ) as DataStoredInToken;
+            const decoded = verify(headerToken, JWT_SECRET) as DataStoredInToken;
             const tokenExpired = Date.now() < decoded.iat!;
             if (tokenExpired) {
                 throw new UnAuthorizedException("JWT_EXPIRED");
