@@ -6,7 +6,7 @@ import helmet from 'helmet';
 
 import BaseRouter from "./routes";
 import Config from "./config/environment";
-import { errorHandler } from "@utils/errorHandler";
+import { errorHandler } from "@middleware/errorHandler";
 import { Server as httpServer, createServer } from "http";
 import { dbConnect } from "@config/mongodb";
 
