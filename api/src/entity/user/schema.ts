@@ -1,14 +1,16 @@
-import { model, Schema } from 'mongoose';
+import { Model, model, Schema } from 'mongoose';
 
-import { encryptPassword } from './trigger';
-
+import { encryptPassword, generateAuthToken } from './trigger';
+import { head, isEmpty } from 'lodash';
+import { compare } from 'bcryptjs';
+import { IUser, IUserModel } from '@interfaces/user.interface';
 
 var validateEmail = function (email: string) {
     var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(email)
 };
 
-export const UserSchema = new Schema({
+export const UserSchema = new Schema<IUser, IUserModel>({
     name: {
         type: String,
         required: true,
@@ -29,14 +31,32 @@ export const UserSchema = new Schema({
     contact_no: {
         type: Number,
         required: false,
-    },
+    }
 })
-
 
 UserSchema.pre("save", encryptPassword);
 
-UserSchema.set("toJSON", {
-    virtuals: true,
-});
+// UserSchema.statics.findByCredentials = async (
+//     email: string,
+//     password: string
+// ) => {
+//     const users = await User.find({ email });
+//     if (isEmpty(users)) {
+//         throw new Error("User does not exist");
+//         //   throw new UnAuthorizedException("User does not exist");
+//     }
+//     const user: any = head(users);
+//     const isMatch = await compare(password, user.password);
+//     if (!isMatch) {
+//         throw new Error("Password does not match");
+//         //   throw new BadRequestException("Password does not match");
+//     }
+//     return user;
+// };
 
-export const User = model("User", UserSchema);
+// UserSchema.methods.generateAuthToken = generateAuthToken
+// UserSchema.set("toJSON", {
+//     virtuals: true,
+// });
+
+export const User = model<IUser, IUserModel>("User", UserSchema);

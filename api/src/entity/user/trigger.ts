@@ -1,5 +1,7 @@
 
+import { SECRET } from "@config/environment";
 import { hash } from "bcryptjs";
+import { sign } from "jsonwebtoken";
 
 export const encryptPassword = async function (this: any, next) {
     const user = this;
@@ -8,3 +10,16 @@ export const encryptPassword = async function (this: any, next) {
     }
     next();
 }
+
+export async function generateAuthToken(this: any, 
+    expiresIn: string = "30d",
+    isLogin = true
+  ) {
+    const user = this;
+    const token = sign({ _id: user._id.toString() }, SECRET, { expiresIn });
+    if (isLogin) {
+      user.accessTokens.push(token);
+      await user.save();
+    }
+    return token;
+  };
