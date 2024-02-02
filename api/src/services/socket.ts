@@ -1,7 +1,7 @@
 
 import { socketAuth } from "@middleware/socketAuth";
 import { Server as httpServer } from "http";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 
 let io: Server;
 export const socketInit = (http: httpServer) => {
@@ -14,6 +14,6 @@ export const socketInit = (http: httpServer) => {
     }
 }
 
-const socketHandler = async (socket: any) => {
-
+const socketHandler = async (socket: Socket) => {
+    console.log('connected')
 }
